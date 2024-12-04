@@ -3,7 +3,9 @@
 .spago
 bower_components
 node_modules
+inputs/
 
 # Generated files
 .psci
+.psc-ide-port
 output
