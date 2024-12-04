@@ -8,6 +8,10 @@ package:
   test:
     main: Test.Main
     dependencies: []
+  build:
+    censorProjectWarnings:
+      - WildcardInferredType
+    strict: true
 workspace:
   packageSet:
     registry: 61.3.0

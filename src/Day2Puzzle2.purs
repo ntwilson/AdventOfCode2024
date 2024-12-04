@@ -52,7 +52,7 @@ solve reports =
     (1 .. Array.length report) # Array.mapMaybe (\i -> Array.deleteAt (i - 1) report)
 
   reportIsSafe reportPairs =
-    (reportPairs # Array.all (\(a /\ b) -> 0 < abs (a - b) && abs (a - b) <= 3))
+    (reportPairs # Array.all (\(a /\ b) -> let diff = abs (a - b) in 0 < diff && diff <= 3))
       &&
         ((reportPairs # Array.groupAllBy (comparing (\(a /\ b) -> sign (Int.toNumber a - Int.toNumber b))) # Array.length) == 1)
 
