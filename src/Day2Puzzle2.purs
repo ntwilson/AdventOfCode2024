@@ -33,22 +33,30 @@ solve reports =
 
   safeReports = pairedReports # Array.filter (Array.any reportIsSafe)
 
+  pairedReports :: Array (Array (Array (Tuple Int Int)))
+  pairedReports =
+    allPossibleReports # map (map pairwise)
+
+  pairwise x = Array.zip x (Array.drop 1 x)
+
+  allPossibleReports :: Array (Array (Array Int))
+  allPossibleReports = 
+    reports <#> possibleReportPermutations
+
+  possibleReportPermutations :: Array Int -> Array (Array Int)
+  possibleReportPermutations report =
+    Array.cons report $ modifiedReports report
+
+  modifiedReports :: Array Int -> Array (Array Int)
+  modifiedReports report =
+    (1 .. Array.length report) # Array.mapMaybe (\i -> Array.deleteAt (i - 1) report)
+
   reportIsSafe reportPairs =
     (reportPairs # Array.all (\(a /\ b) -> 0 < abs (a - b) && abs (a - b) <= 3))
       &&
         ((reportPairs # Array.groupAllBy (comparing (\(a /\ b) -> sign (Int.toNumber a - Int.toNumber b))) # Array.length) == 1)
 
-  allPossibleReports :: Array (Array (Array Int))
-  allPossibleReports = 
-    reports <#> modifiedReports
 
-  modifiedReports :: Array Int -> Array (Array Int)
-  modifiedReports report =
-    Array.cons report ((1 .. Array.length report) # Array.mapMaybe (\i -> Array.deleteAt (i - 1) report))
-
-  pairedReports :: Array (Array (Array (Tuple Int Int)))
-  pairedReports =
-    allPossibleReports # map (map (\report -> Array.zip report (Array.drop 1 report)))
 
 run :: Aff Unit
 run = do
