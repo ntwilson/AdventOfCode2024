@@ -4,13 +4,17 @@ package:
     - console
     - effect
     - node-fs
+    - parsing
     - prelude
+    - spec
+    - spec-discovery
   test:
     main: Test.Main
     dependencies: []
   build:
     censorProjectWarnings:
       - WildcardInferredType
+      - ImplicitQualifiedImport
     strict: true
 workspace:
   packageSet:
