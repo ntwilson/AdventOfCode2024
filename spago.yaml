@@ -15,6 +15,7 @@ package:
     censorProjectWarnings:
       - WildcardInferredType
       - ImplicitQualifiedImport
+      - ShadowedName
     strict: true
 workspace:
   packageSet:
