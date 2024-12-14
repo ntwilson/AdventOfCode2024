@@ -7,7 +7,7 @@ import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
 import Effect.Aff (Aff, Error, error)
 
--- if I evaluate Day6 Puzzle1 in the Either monad, the stack blows up.  Aff is inherently stack safe.
+-- If I evaluate Day6 Puzzle1 in the Either monad, the stack blows up.  Aff is inherently stack safe.
 -- I'm creating this Throws class so that I can have Either String and Aff unify and use Either String
 -- in tests, but then use Aff and just throw Errors when running on the real input. This seems simpler
 -- than trampolining the whole thing.
