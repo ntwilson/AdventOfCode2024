@@ -33,6 +33,7 @@ derive instance Eq Direction
 derive instance Generic Direction _
 instance Show Direction where
   show = genericShow
+
 derive instance Ord Direction
 
 data MapCoordinate
@@ -46,7 +47,7 @@ instance Show MapCoordinate where
 
 type GeoMap =
   { geoMap :: Map { row :: Int, col :: Int } MapCoordinate
-  , guard :: { coord :: {row :: Int, col :: Int}, direction :: Direction }
+  , guard :: { coord :: { row :: Int, col :: Int }, direction :: Direction }
   , visitations :: Map { row :: Int, col :: Int } (Array Direction)
   }
 
@@ -78,8 +79,10 @@ parseInput input = do
                   c -> throw ("Invalid character - " <> show c <> " - in input")
               )
           )
-      <#> Array.mapWithIndex (\row ->
-        Array.mapWithIndex (\col cell -> {row, col} /\ cell))
+      <#> Array.mapWithIndex
+        ( \row ->
+            Array.mapWithIndex (\col cell -> { row, col } /\ cell)
+        )
       <#> Array.concat
       <#> Map.fromFoldable
 
@@ -93,10 +96,10 @@ parseInput input = do
               Array.mapWithIndex
                 ( \col ->
                     case _ of
-                      '^' -> Just { coord: {row, col}, direction: Up }
-                      'v' -> Just { coord: {row, col}, direction: Down }
-                      '<' -> Just { coord: {row, col}, direction: Left }
-                      '>' -> Just { coord: {row, col}, direction: Right }
+                      '^' -> Just { coord: { row, col }, direction: Up }
+                      'v' -> Just { coord: { row, col }, direction: Down }
+                      '<' -> Just { coord: { row, col }, direction: Left }
+                      '>' -> Just { coord: { row, col }, direction: Right }
                       _ -> Nothing
                 )
           )
@@ -106,15 +109,15 @@ parseInput input = do
       # liftMaybe "Failed to find the guard's starting location"
 
 data GeoMapEndState
-  = LeftMap (Set { row :: Int, col :: Int })
-  | StuckInLoop (Set { row :: Int, col :: Int })
+  = LeftMap
+  | StuckInLoop
 
 derive instance Eq GeoMapEndState
 derive instance Generic GeoMapEndState _
 instance Show GeoMapEndState where
   show = genericShow
 
-advanceOneStep :: GeoMap -> Either GeoMap GeoMapEndState
+advanceOneStep :: GeoMap -> Either GeoMap { endState :: GeoMapEndState, visitations :: Set { row :: Int, col :: Int } }
 advanceOneStep totalMap@{ guard, visitations, geoMap } =
   let
     nextStep = case guard.direction of
@@ -131,12 +134,12 @@ advanceOneStep totalMap@{ guard, visitations, geoMap } =
           # Either.Left
 
       Nothing ->
-        Either.Right $ LeftMap $ Map.keys visitations
+        Either.Right $ { endState: LeftMap, visitations: Map.keys visitations }
 
       Just Empty
         | Just directions <- visitations # Map.lookup nextStep
         , Array.elem guard.direction directions ->
-            Either.Right $  StuckInLoop $ Map.keys visitations
+            Either.Right $ { endState: StuckInLoop, visitations: Map.keys visitations }
 
       Just Empty ->
         totalMap
@@ -147,7 +150,7 @@ advanceOneStep totalMap@{ guard, visitations, geoMap } =
           }
           # Either.Left
 
-fullyExplore :: GeoMap -> GeoMapEndState
+fullyExplore :: GeoMap -> { endState :: GeoMapEndState, visitations :: Set { row :: Int, col :: Int } }
 fullyExplore geoMap =
   case advanceOneStep geoMap of
     Either.Right endState -> endState
@@ -155,19 +158,14 @@ fullyExplore geoMap =
 
 permutations :: GeoMap -> Array GeoMap
 permutations geoMap =
-  let 
-    visitations = 
-      case fullyExplore geoMap of 
-        LeftMap v -> v
-        StuckInLoop v -> v
-  in
-    visitations
+  (fullyExplore geoMap).visitations
     # Array.fromFoldable
-    # Array.mapMaybe (\{ row, col } ->
-      case Map.lookup { row, col } geoMap.geoMap of
-        Just Empty | { row, col } /= geoMap.guard.coord -> Just geoMap { geoMap = geoMap.geoMap # Map.insert {row, col} Obstacle }
-        _ -> Nothing
-    )
+    # Array.mapMaybe
+        ( \{ row, col } ->
+            case Map.lookup { row, col } geoMap.geoMap of
+              Just Empty | { row, col } /= geoMap.guard.coord -> Just geoMap { geoMap = geoMap.geoMap # Map.insert { row, col } Obstacle }
+              _ -> Nothing
+        )
 
 solve :: GeoMap -> Int
 solve geoMap =
@@ -175,7 +173,7 @@ solve geoMap =
     <#> fullyExplore
     # Array.filter
         ( case _ of
-            StuckInLoop _ -> true
+            { endState: StuckInLoop } -> true
             _ -> false
         )
     # Array.length
