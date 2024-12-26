@@ -16,6 +16,8 @@ import Day5Puzzle2 as Day5Puzzle2
 import Day6Puzzle1 as Day6Puzzle1
 import Day7Puzzle1 as Day7Puzzle1
 import Day7Puzzle2 as Day7Puzzle2
+import Day8Puzzle1 as Day8Puzzle1
+import Day8Puzzle2 as Day8Puzzle2
 import Effect (Effect)
 import Effect.Aff (Aff, runAff_)
 import Effect.Class.Console (log)
@@ -37,12 +39,14 @@ runAll = do
   -- Day6Puzzle2.run 
   Day7Puzzle1.run
   Day7Puzzle2.run
+  Day8Puzzle1.run
+  Day8Puzzle2.run
 
 main :: Effect Unit
 main = do
   runAff_ handler runAll
 
-  where 
+  where
   handler (Left err) = log $ "Error: " <> show err
   handler (Right _) = pure unit
 
