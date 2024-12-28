@@ -15,13 +15,14 @@ import Day5Puzzle1 as Day5Puzzle1
 import Day5Puzzle2 as Day5Puzzle2
 import Day6Puzzle1 as Day6Puzzle1
 import Day7Puzzle1 as Day7Puzzle1
-import Day7Puzzle2 as Day7Puzzle2
 import Day8Puzzle1 as Day8Puzzle1
 import Day8Puzzle2 as Day8Puzzle2
 import Day10Puzzle1 as Day10Puzzle1
 import Day10Puzzle2 as Day10Puzzle2
 import Day11Puzzle1 as Day11Puzzle1
 import Day11Puzzle2 as Day11Puzzle2
+import Day12Puzzle1 as Day12Puzzle1
+import Day12Puzzle2 as Day12Puzzle2
 import Effect (Effect)
 import Effect.Aff (Aff, runAff_)
 import Effect.Class.Console (log)
@@ -42,7 +43,8 @@ runAll = do
   -- skip because it takes a bit to run
   -- Day6Puzzle2.run 
   Day7Puzzle1.run
-  Day7Puzzle2.run
+  -- skip because it takes a bit to run
+  -- Day7Puzzle2.run
   Day8Puzzle1.run
   Day8Puzzle2.run
   -- skip because it takes a bit to run
@@ -52,6 +54,8 @@ runAll = do
   Day10Puzzle2.run
   Day11Puzzle1.run
   Day11Puzzle2.run
+  Day12Puzzle1.run
+  Day12Puzzle2.run
 
 main :: Effect Unit
 main = do
