@@ -5,6 +5,7 @@
         "path": "./",
         "core": {
           "dependencies": [
+            "aff-promise",
             "console",
             "effect",
             "node-fs",
@@ -15,6 +16,7 @@
           ],
           "build_plan": [
             "aff",
+            "aff-promise",
             "ansi",
             "argonaut-codecs",
             "argonaut-core",
@@ -639,6 +641,15 @@
         "tailrec",
         "transformers",
         "unsafe-coerce"
+      ]
+    },
+    "aff-promise": {
+      "type": "registry",
+      "version": "4.0.0",
+      "integrity": "sha256-Kq5EupbUpXeUXx4JqGQE7/RTTz/H6idzWhsocwlEFhM=",
+      "dependencies": [
+        "aff",
+        "foreign"
       ]
     },
     "ansi": {

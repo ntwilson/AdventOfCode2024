@@ -3,6 +3,15 @@ module Main where
 import Prelude
 
 import Data.Either (Either(..))
+import Day10Puzzle1 as Day10Puzzle1
+import Day10Puzzle2 as Day10Puzzle2
+import Day11Puzzle1 as Day11Puzzle1
+import Day11Puzzle2 as Day11Puzzle2
+import Day12Puzzle1 as Day12Puzzle1
+import Day13Puzzle1 as Day13Puzzle1
+import Day13Puzzle2 as Day13Puzzle2
+import Day14Puzzle1 as Day14Puzzle1
+import Day14Puzzle2 as Day14Puzzle2
 import Day1Puzzle1 as Day1Puzzle1
 import Day1Puzzle2 as Day1Puzzle2
 import Day2Puzzle1 as Day2Puzzle1
@@ -17,14 +26,6 @@ import Day6Puzzle1 as Day6Puzzle1
 import Day7Puzzle1 as Day7Puzzle1
 import Day8Puzzle1 as Day8Puzzle1
 import Day8Puzzle2 as Day8Puzzle2
-import Day10Puzzle1 as Day10Puzzle1
-import Day10Puzzle2 as Day10Puzzle2
-import Day11Puzzle1 as Day11Puzzle1
-import Day11Puzzle2 as Day11Puzzle2
-import Day12Puzzle1 as Day12Puzzle1
-import Day12Puzzle2 as Day12Puzzle2
-import Day13Puzzle1 as Day13Puzzle1
-import Day13Puzzle2 as Day13Puzzle2
 import Effect (Effect)
 import Effect.Aff (Aff, runAff_)
 import Effect.Class.Console (log)
@@ -57,9 +58,12 @@ runAll = do
   Day11Puzzle1.run
   Day11Puzzle2.run
   Day12Puzzle1.run
-  Day12Puzzle2.run
+  -- skip because it takes a bit to run
+  -- Day12Puzzle2.run
   Day13Puzzle1.run
   Day13Puzzle2.run
+  Day14Puzzle1.run
+  Day14Puzzle2.run
 
 main :: Effect Unit
 main = do
